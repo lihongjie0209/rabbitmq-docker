@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  master:
+    image: library/rabbitmq:3-management
+    hostname: master
+    entrypoint: /opt/docker-entrypoint.sh
+    command:
+      - rabbitmq-server
+    volumes:
+      - ./docker-entrypoint.sh:/opt/docker-entrypoint.sh
+      - ./master.conf:/etc/rabbitmq/rabbitmq.conf
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+
+  node1:
+    image: library/rabbitmq:3-management
+    hostname: node1
+    entrypoint: /opt/docker-entrypoint.sh
+
+    command: 'sleep 10 && rabbitmq-server'
+
+    volumes:
+      - ./docker-entrypoint.sh:/opt/docker-entrypoint.sh
+
+      - ./node1.conf:/etc/rabbitmq/rabbitmq.conf
+
+    depends_on:
+      - master
+
+  node2:
+    image: library/rabbitmq:3-management
+    hostname: node2
+    entrypoint: /opt/docker-entrypoint.sh
+
+    command: 'sleep 10 && rabbitmq-server'
+
+    volumes:
+      - ./docker-entrypoint.sh:/opt/docker-entrypoint.sh
+
+      - ./node2.conf:/etc/rabbitmq/rabbitmq.conf
+
+    depends_on:
+      - master
