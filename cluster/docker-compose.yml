@@ -19,27 +19,24 @@ services:
     hostname: node1
     entrypoint: /opt/docker-entrypoint.sh
 
-    command: 'sleep 10 && rabbitmq-server'
+    command: sh -c 'sleep 0 && rabbitmq-server'
 
     volumes:
       - ./docker-entrypoint.sh:/opt/docker-entrypoint.sh
 
       - ./node1.conf:/etc/rabbitmq/rabbitmq.conf
 
-    depends_on:
-      - master
+
 
   node2:
     image: library/rabbitmq:3-management
     hostname: node2
     entrypoint: /opt/docker-entrypoint.sh
 
-    command: 'sleep 10 && rabbitmq-server'
+    command: sh -c 'sleep 0 && rabbitmq-server'
+
 
     volumes:
       - ./docker-entrypoint.sh:/opt/docker-entrypoint.sh
 
       - ./node2.conf:/etc/rabbitmq/rabbitmq.conf
-
-    depends_on:
-      - master
